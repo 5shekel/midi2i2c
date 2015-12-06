@@ -62,16 +62,6 @@
       <d2p1:level>1</d2p1:level>
     </d1p1:anyType>
     <d1p1:anyType xmlns:d2p1="http://schemas.datacontract.org/2004/07/VixenModules.Effect.SetLevel" i:type="d2p1:SetLevelData">
-      <ModuleInstanceId>fd663f91-e09f-4ad0-b182-7c1a5ba5aa75</ModuleInstanceId>
-      <ModuleTypeId>32cff8e0-5b10-4466-a093-0d232c55aac0</ModuleTypeId>
-      <d2p1:color xmlns:d3p1="http://schemas.datacontract.org/2004/07/Common.Controls.ColorManagement.ColorModels">
-        <d3p1:_b>0.88235294117647056</d3p1:_b>
-        <d3p1:_g>0.41176470588235292</d3p1:_g>
-        <d3p1:_r>0.25490196078431371</d3p1:_r>
-      </d2p1:color>
-      <d2p1:level>1</d2p1:level>
-    </d1p1:anyType>
-    <d1p1:anyType xmlns:d2p1="http://schemas.datacontract.org/2004/07/VixenModules.Effect.SetLevel" i:type="d2p1:SetLevelData">
       <ModuleInstanceId>adb49fcb-e566-4c68-917a-71f09d8cdafa</ModuleInstanceId>
       <ModuleTypeId>32cff8e0-5b10-4466-a093-0d232c55aac0</ModuleTypeId>
       <d2p1:color xmlns:d3p1="http://schemas.datacontract.org/2004/07/Common.Controls.ColorManagement.ColorModels">
@@ -83,16 +73,6 @@
     </d1p1:anyType>
     <d1p1:anyType xmlns:d2p1="http://schemas.datacontract.org/2004/07/VixenModules.Effect.SetLevel" i:type="d2p1:SetLevelData">
       <ModuleInstanceId>7a1e47b0-3e8d-44a5-9d38-1a1020ffb317</ModuleInstanceId>
-      <ModuleTypeId>32cff8e0-5b10-4466-a093-0d232c55aac0</ModuleTypeId>
-      <d2p1:color xmlns:d3p1="http://schemas.datacontract.org/2004/07/Common.Controls.ColorManagement.ColorModels">
-        <d3p1:_b>0.88235294117647056</d3p1:_b>
-        <d3p1:_g>0.41176470588235292</d3p1:_g>
-        <d3p1:_r>0.25490196078431371</d3p1:_r>
-      </d2p1:color>
-      <d2p1:level>1</d2p1:level>
-    </d1p1:anyType>
-    <d1p1:anyType xmlns:d2p1="http://schemas.datacontract.org/2004/07/VixenModules.Effect.SetLevel" i:type="d2p1:SetLevelData">
-      <ModuleInstanceId>9cdcd930-889a-4c10-aa70-a192eaab336c</ModuleInstanceId>
       <ModuleTypeId>32cff8e0-5b10-4466-a093-0d232c55aac0</ModuleTypeId>
       <d2p1:color xmlns:d3p1="http://schemas.datacontract.org/2004/07/Common.Controls.ColorManagement.ColorModels">
         <d3p1:_b>0.88235294117647056</d3p1:_b>
@@ -138,7 +118,7 @@
     </EffectNodeSurrogate>
     <EffectNodeSurrogate>
       <InstanceId>a54fe268-3694-4984-a770-a792ada2bb44</InstanceId>
-      <StartTime>PT2.89S</StartTime>
+      <StartTime>PT2.229S</StartTime>
       <TargetNodes>
         <ChannelNodeReferenceSurrogate>
           <NodeId>b82e279b-fd3f-4fd8-9afc-63883a38051e</NodeId>
@@ -149,21 +129,10 @@
     </EffectNodeSurrogate>
     <EffectNodeSurrogate>
       <InstanceId>8ad4926e-6e04-4721-aa7e-fdf898d8a76b</InstanceId>
-      <StartTime>PT4.251S</StartTime>
+      <StartTime>PT4.191S</StartTime>
       <TargetNodes>
         <ChannelNodeReferenceSurrogate>
           <NodeId>94bbde8b-b720-475e-accd-3afd85f96cf6</NodeId>
-        </ChannelNodeReferenceSurrogate>
-      </TargetNodes>
-      <TimeSpan>PT1.323S</TimeSpan>
-      <TypeId>32cff8e0-5b10-4466-a093-0d232c55aac0</TypeId>
-    </EffectNodeSurrogate>
-    <EffectNodeSurrogate>
-      <InstanceId>fd663f91-e09f-4ad0-b182-7c1a5ba5aa75</InstanceId>
-      <StartTime>PT5.503S</StartTime>
-      <TargetNodes>
-        <ChannelNodeReferenceSurrogate>
-          <NodeId>50ebc55f-3ef7-419b-9064-8e0223e09f13</NodeId>
         </ChannelNodeReferenceSurrogate>
       </TargetNodes>
       <TimeSpan>PT1.323S</TimeSpan>
@@ -178,17 +147,6 @@
         </ChannelNodeReferenceSurrogate>
       </TargetNodes>
       <TimeSpan>PT1.323S</TimeSpan>
-      <TypeId>32cff8e0-5b10-4466-a093-0d232c55aac0</TypeId>
-    </EffectNodeSurrogate>
-    <EffectNodeSurrogate>
-      <InstanceId>9cdcd930-889a-4c10-aa70-a192eaab336c</InstanceId>
-      <StartTime>PT6.826S</StartTime>
-      <TargetNodes>
-        <ChannelNodeReferenceSurrogate>
-          <NodeId>50ebc55f-3ef7-419b-9064-8e0223e09f13</NodeId>
-        </ChannelNodeReferenceSurrogate>
-      </TargetNodes>
-      <TimeSpan>PT1.175S</TimeSpan>
       <TypeId>32cff8e0-5b10-4466-a093-0d232c55aac0</TypeId>
     </EffectNodeSurrogate>
     <EffectNodeSurrogate>

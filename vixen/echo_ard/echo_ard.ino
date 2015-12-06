@@ -9,7 +9,8 @@ SoftwareSerial srvSerial(9, 8); // RX, TX
 
 int ch;
 int state;
-int chVal[MAX_CHANNELS + 2] = {0};
+int chVal[MAX_CHANNELS] = {0};
+int prevChVal[MAX_CHANNELS] = {0};
 
 enum states
 {
@@ -33,19 +34,6 @@ void loop()
 {
   if (Serial.available())
   {
-    /*
-      chVal[ch++] = Serial.read();
-
-      if (ch >= MAX_CHANNELS + 2) {
-      for (ch = 2; ch < MAX_CHANNELS + 2; ch++) {
-        srvSerial.print(chVal[ch]);
-        srvSerial.print(" ");
-      }
-      srvSerial.println();
-      ch = 0 ;
-      }
-    */
-
     switch (state)
     {
       case IDLE:
@@ -83,14 +71,22 @@ void loop()
 
       case DISP:
         state = IDLE;
+        if (compareArrays(prevChVal, chVal, MAX_CHANNELS))
+          break; //only continue if the array is diffrent;
         for (int iii = 0; iii < MAX_CHANNELS; iii++) {
           srvSerial.print(chVal[iii]);
           srvSerial.print(" ");
+          prevChVal[iii] = chVal[iii] ;
         }
         srvSerial.println();
-
         break;
     }
-
   }
+}
+
+int compareArrays(int a[], int b[], int n) {
+  for (int ii = 0; ii < n; ii++) {
+    if (a[ii] != b[ii]) return 0;
+  }
+  return 1;
 }
