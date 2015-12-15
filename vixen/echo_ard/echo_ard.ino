@@ -1,11 +1,18 @@
 //vixen control of servos
 //pwm led code via http://freaklabs.org/index.php/blog/chibi/wireless-lighting-control-using-arduino-and-vixen.html
 
+
+#define MAX_CHANNELS 15
+
+#include <PrintEx.h>
+using namespace ios;
+
 #include <SoftwareSerial.h>
+SoftwareSerial srvSerial(7, 8); // RX, TX
 
-#define MAX_CHANNELS 3
-
-SoftwareSerial srvSerial(9, 8); // RX, TX
+#include <SPI.h>
+#include <SD.h>
+const uint8_t chipSelect = 4;
 
 int ch;
 int state;
@@ -17,7 +24,8 @@ enum states
   IDLE,
   DELIM,
   READ,
-  DISP
+  PROCESS,
+  STORE
 };
 
 void setup()
@@ -27,6 +35,13 @@ void setup()
 
   Serial.begin(57600);
   srvSerial.begin(57600);
+
+  Serial.print("Initializing SD card...");
+  if (!SD.begin(chipSelect)) {
+    Serial.println("Card failed, or not present");
+    return;
+  }
+  Serial.println("card initialized.");
 
 }
 
@@ -65,20 +80,28 @@ void loop()
         if (ch >= MAX_CHANNELS)
         {
           ch = 0;
-          state = DISP;
+          state = PROCESS;
         }
         break;
 
-      case DISP:
+      case PROCESS:
         state = IDLE;
-        if (compareArrays(prevChVal, chVal, MAX_CHANNELS))
+
+        if (compareArrays(prevChVal, chVal, sizeof(prevChVal))) {
+          srvSerial << "same" << endl;
           break; //only continue if the array is diffrent;
-        for (int iii = 0; iii < MAX_CHANNELS; iii++) {
-          srvSerial.print(chVal[iii]);
-          srvSerial.print(" ");
-          prevChVal[iii] = chVal[iii] ;
+
         }
-        srvSerial.println();
+        memcpy(prevChVal, chVal, sizeof(prevChVal));
+
+        for (int iii = 0; iii < MAX_CHANNELS; iii++)
+          srvSerial << iii << ":" << chVal[iii] << " | "; //print debug out
+
+        srvSerial << endl;
+        break;
+
+      case STORE:
+
         break;
     }
   }
@@ -87,6 +110,7 @@ void loop()
 int compareArrays(int a[], int b[], int n) {
   for (int ii = 0; ii < n; ii++) {
     if (a[ii] != b[ii]) return 0;
+    srvSerial << "not smae"<<endl;
   }
   return 1;
 }
