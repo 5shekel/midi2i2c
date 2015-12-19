@@ -1,7 +1,7 @@
 # midi2i2c
 a light movement and sound show.
 
-unlike its name we dont use i2c, or midi ...   lots of hardware, fails and smoke got us to current setup so remmber, name your project not by its limbs.  
+unlike its name we dont use midi ...   lots of switching hardware, fails and smoke got me to current setup so remmber kids, name your project by spirit not by its limbs.  
 
 just serial from vixen showcontrol and out to the servo controler(serial), leds(i2c) and music(i2c,SPI)
 
