@@ -17,24 +17,9 @@ AudioConnection          patchCord2(playSdWav1, 1, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;
 ///////////////////////////////
 
-////////////////////////////
-#include <Adafruit_NeoPixel.h>
-#define PIN 2
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(32, PIN, NEO_GRB + NEO_KHZ800);
-////////////////////////////
+///////////////////////////
 
-/////////////////////////////
 #define MAX_CHANNELS 15
-#include <PololuMaestro.h>
-#include <SoftwareSerial.h>
-SoftwareSerial srvSerial(3, 4); // RX, TX
-MiniMaestro maestro(srvSerial);
-
-#include <PrintEx.h>
-using namespace ios;
-///////////////////////////
-
-///////////////////////////
 int ch;
 int state;
 int chVal[MAX_CHANNELS] = {0};
@@ -52,7 +37,10 @@ enum states
 
 void setup() {
   Serial.begin(57600);
-  srvSerial.begin(57600);
+  Serial1.begin(57600);
+  long unsigned debug_start = millis ();
+  while (!Serial && ((millis () - debug_start) <= 7000)) ;
+  Serial1.println("working");
 
   //AUDIO
   AudioMemory(8);
@@ -67,18 +55,12 @@ void setup() {
     }
   }
   delay(1000);
-
-  //LEDS
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
-
   //vixen
   state = IDLE;
   ch = 0;
 }
 
 void loop() {
-
   if (Serial.available())
   {
     switch (state)
@@ -119,17 +101,21 @@ void loop() {
       case PROCESS:
         state = IDLE;
 
-        if (compareArrays(prevChVal, chVal, sizeof(prevChVal))) {
-          srvSerial << "same" << endl;
+        if (array_cmp(prevChVal, chVal, 5, 5)) {
+          //Serial1.println("same");
           break; //only continue if the array is diffrent;
-
         }
+
         memcpy(prevChVal, chVal, sizeof(prevChVal));
 
-        for (int iii = 0; iii < MAX_CHANNELS; iii++)
-          srvSerial << iii << ":" << chVal[iii] << " | "; //print debug out
-
-        srvSerial << endl;
+        for (int iii = 0; iii < MAX_CHANNELS; iii++) {
+          Serial1.print(iii);
+          Serial1.print(":");
+          Serial1.print(chVal[iii]);
+          Serial1.print(" | ");
+          //Serial1 << iii << ":" << chVal[iii] << " | "; //print debug out
+        }
+        Serial1.println();
         break;
 
       case STORE:
@@ -137,52 +123,17 @@ void loop() {
         break;
     }
   }
-  
-  /*
-    if (playSdWav1.isPlaying() == false) {
-    playSdWav1.play("sosimple.wav");
-    delay(10); // wait for library to parse WAV info
+}
+boolean array_cmp(int *a, int *b, int len_a, int len_b) {
+  int n;
+  // if their lengths are different, return false
+  if (len_a != len_b) return false;
+
+  // test each element to be the same. if not, return false
+  for (n = 0; n < len_a; n++) if (a[n] != b[n]) {
+      return false;
     }
 
-    rainbow(20);
-  
-  maestro.setTargetMiniSSC(servo[1], 255);
-  */
-}
-
-
-
-int compareArrays(int a[], int b[], int n) {
-  for (int ii = 0; ii < n; ii++) {
-    if (a[ii] != b[ii]) return 0;
-    srvSerial << "not smae" << endl;
-  }
-  return 1;
-}
-
-void rainbow(uint8_t wait) {
-  uint16_t i, j;
-
-  for (j = 0; j < 256; j++) {
-    for (i = 0; i < strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel((i + j) & 255));
-    }
-    strip.show();
-    delay(wait);
-  }
-}
-
-uint32_t Wheel(byte WheelPos) {
-  // Input a value 0 to 255 to get a color value.
-  // The colours are a transition r - g - b - back to r.
-  WheelPos = 255 - WheelPos;
-  if (WheelPos < 85) {
-    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-  }
-  if (WheelPos < 170) {
-    WheelPos -= 85;
-    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-  }
-  WheelPos -= 170;
-  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+  //ok, if we have not returned yet, they are equal :)
+  return true;
 }
