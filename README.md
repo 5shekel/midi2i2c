@@ -1,5 +1,4 @@
-# midi2i2c
-a light movement and sound show.
+a Light,Movement and Sound show(control).
 
 unlike its name we dont use midi ...   lots of switching hardware, fails and smoke got me to current setup so remmber kids, name your project by spirit not by its limbs.  
 
