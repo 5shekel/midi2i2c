@@ -297,7 +297,7 @@
     </EffectNodeSurrogate>
     <EffectNodeSurrogate>
       <InstanceId>adb49fcb-e566-4c68-917a-71f09d8cdafa</InstanceId>
-      <StartTime>PT6.564S</StartTime>
+      <StartTime>PT7.476S</StartTime>
       <TargetNodes>
         <ChannelNodeReferenceSurrogate>
           <NodeId>b82e279b-fd3f-4fd8-9afc-63883a38051e</NodeId>
