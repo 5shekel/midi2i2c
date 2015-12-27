@@ -14,9 +14,18 @@ AudioConnection          patchCord2(playSdWav1, 1, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;
 ///////////////////////////////
 
+///////////////////////////////
+/*
+#include <AltSoftSerial.h>
+AltSoftSerial vixSerial;
+*/
+///////////////////////////////
+
+
+///////////////////////////////
 #include <Adafruit_NeoPixel.h>
-#define PIN 20
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(32, PIN, NEO_GRB + NEO_KHZ800);
+#define ledPIN 17
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(32, ledPIN, NEO_GRB + NEO_KHZ800);
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input// and minimize distance between Arduino and first pixel.  Avoid connecting
@@ -24,9 +33,10 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(32, PIN, NEO_GRB + NEO_KHZ800);
 
 ///////////////////////////
 
-#define MAX_CHANNELS 15
+#define MAX_CHANNELS 14
 int ch;
 int state;
+int firstcall;
 long prevMillis, delta;
 int chVal[MAX_CHANNELS] = {0};
 int prevChVal[MAX_CHANNELS] = {0};

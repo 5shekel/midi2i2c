@@ -14,8 +14,6 @@
 void setup() {
   Serial.begin(57600);
   Serial1.begin(57600);
-  long unsigned debug_start = millis ();
-  while (!Serial && ((millis () - debug_start) <= 7000)) ;
   Serial1.println("working");
 
   //AUDIO
@@ -26,7 +24,7 @@ void setup() {
   SPI.setSCK(14);
   if (!(SD.begin(10))) {
     while (1) {
-      Serial.println("Unable to access the SD card");
+      //Serial.println("Unable to access the SD card");
       delay(500);
     }
   }
@@ -39,18 +37,19 @@ void setup() {
   //vixen
   state = IDLE;
   ch = 0;
+  firstcall = 1;
 }
 
 void loop() {
 
-  //AUDIO
-  if (playSdWav1.isPlaying() == false) {
-    playSdWav1.play("sosimple.wav");
-    delay(10); // wait for library to parse WAV info
-  }
-  //LED
-  rainbow(20);
-
+  /*
+    //AUDIO
+    if (playSdWav1.isPlaying() == false) {
+      playSdWav1.play("sosimple.wav");
+      Serial1.println("restart");
+      delay(10); // wait for library to parse WAV info
+    }
+  */
   if (Serial.available())
   {
     switch (state)
@@ -58,25 +57,17 @@ void loop() {
       case IDLE:
         ch = 0;
         if (Serial.read() == '+')
-        {
           state = DELIM;
-        }
         else
-        {
           state = IDLE;
-        }
         break;
 
       case DELIM:
         ch = 0;
         if (Serial.read() == '>')
-        {
           state = READ;
-        }
         else
-        {
           state = IDLE;
-        }
         break;
 
       case READ:
@@ -91,12 +82,8 @@ void loop() {
       case PROCESS:
         state = IDLE;
 
-        if (array_cmp(prevChVal, chVal, MAX_CHANNELS, MAX_CHANNELS)) {
-          //Serial1.println("same");
-          for ( int i = 0 ; i < MAX_CHANNELS ; ++i )
-            prevChVal[ i ] = chVal[ i ];
+        if (array_cmp(prevChVal, chVal, MAX_CHANNELS, MAX_CHANNELS))
           break; //only continue if the array is diffrent;
-        }
 
         //copy array
         for ( int i = 0 ;  i < MAX_CHANNELS ; ++i )
@@ -105,20 +92,39 @@ void loop() {
         delta = millis() - prevMillis;
         Serial1.print(delta);
         Serial1.print("=");
-
         for (int iii = 0; iii < MAX_CHANNELS; iii++) {
           Serial1.print(iii);
           Serial1.print(":");
           Serial1.print(chVal[iii]);
           Serial1.print(" | ");
-          //Serial1 << iii << ":" << chVal[iii] << " | "; //print debug out
+
+          strip.setPixelColor(iii, chVal[iii]);
         }
         Serial1.println();
-        break;
 
-      case STORE:
+        if (chVal[13] == 255 && firstcall) {
 
-        break;
+          //AUDIO
+
+          playSdWav1.play("sosimple.wav");
+          Serial1.println("restart");
+        
+
+        firstcall = 0;
+        prevMillis = millis();
+        Serial1.println("-------------------------------------");
+    } else if (chVal[13] == 0) {
+      firstcall = 1;
     }
+
+    strip.show();
+
+    break;
+
+  case STORE:
+
+    break;
   }
+}
+
 }
